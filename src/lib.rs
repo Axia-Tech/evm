@@ -6,7 +6,6 @@
 
 extern crate alloc;
 
-pub use evm_core::*;
 pub use evm_gasometer as gasometer;
 pub use evm_runtime::*;
 
@@ -18,7 +17,7 @@ macro_rules! event {
 	($x:expr) => {
 		use crate::tracing::Event::*;
 		crate::tracing::with(|listener| listener.event($x));
-	}
+	};
 }
 
 #[cfg(not(feature = "tracing"))]

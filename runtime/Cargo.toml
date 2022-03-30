@@ -1,18 +1,19 @@
 [package]
 name = "evm-runtime"
-version = "0.30.0"
+version = "0.33.0"
 license = "Apache-2.0"
-authors = ["Wei Tang <hi@that.world>", "AXIA Technologies <admin@axiacoin.network>"]
+authors = ["Wei Tang <hi@that.world>", "Axia Technologies <admin@axia.io>"]
 description = "SputnikVM - a Portable Blockchain Virtual Machine"
 repository = "https://github.com/sorpaas/rust-evm"
 keywords = ["no_std", "ethereum"]
 edition = "2018"
 
 [dependencies]
-evm-core = { version = "0.30", path = "../core", default-features = false }
-primitive-types = { git = "https://github.com/axia-tech/axia-common", branch = "master", version = "0.10.1", default-features = false }
+evm-core = { version = "0.33", path = "../core", default-features = false }
+primitive-types = { version = "0.10", default-features = false }
 sha3 = { version = "0.8", default-features = false }
 environmental = { version = "1.1.2", default-features = false, optional = true}
+auto_impl = "0.5.0"
 
 [features]
 default = ["std"]
@@ -20,4 +21,3 @@ std = ["evm-core/std", "primitive-types/std", "sha3/std", "environmental/std"]
 tracing = [
   "environmental"
 ]
-tracing-step = [ "tracing" ]

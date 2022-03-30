@@ -15,15 +15,18 @@ pub enum Capture<E, T> {
 }
 
 /// Exit reason.
-#[derive(Clone, Debug, Eq, PartialEq, scale_info::TypeInfo)]
-#[cfg_attr(feature = "with-codec", derive(codec::Encode, codec::Decode))]
+#[derive(Clone, Debug, Eq, PartialEq)]
+#[cfg_attr(
+	feature = "with-codec",
+	derive(codec::Encode, codec::Decode, scale_info::TypeInfo)
+)]
 #[cfg_attr(feature = "with-serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum ExitReason {
 	/// Machine has succeeded.
 	Succeed(ExitSucceed),
 	/// Machine returns a normal EVM error.
 	Error(ExitError),
-	/// Machine encountered an explict revert.
+	/// Machine encountered an explicit revert.
 	Revert(ExitRevert),
 	/// Machine encountered an error that is not supposed to be normal EVM
 	/// errors, such as requiring too much memory to execute.
@@ -53,15 +56,18 @@ impl ExitReason {
 }
 
 /// Exit succeed reason.
-#[derive(Clone, Copy, Debug, Eq, PartialEq, scale_info::TypeInfo)]
-#[cfg_attr(feature = "with-codec", derive(codec::Encode, codec::Decode))]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[cfg_attr(
+	feature = "with-codec",
+	derive(codec::Encode, codec::Decode, scale_info::TypeInfo)
+)]
 #[cfg_attr(feature = "with-serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum ExitSucceed {
-	/// Machine encountered an explict stop.
+	/// Machine encountered an explicit stop.
 	Stopped,
-	/// Machine encountered an explict return.
+	/// Machine encountered an explicit return.
 	Returned,
-	/// Machine encountered an explict suicide.
+	/// Machine encountered an explicit suicide.
 	Suicided,
 }
 
@@ -72,11 +78,14 @@ impl From<ExitSucceed> for ExitReason {
 }
 
 /// Exit revert reason.
-#[derive(Clone, Copy, Debug, Eq, PartialEq, scale_info::TypeInfo)]
-#[cfg_attr(feature = "with-codec", derive(codec::Encode, codec::Decode))]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[cfg_attr(
+	feature = "with-codec",
+	derive(codec::Encode, codec::Decode, scale_info::TypeInfo)
+)]
 #[cfg_attr(feature = "with-serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum ExitRevert {
-	/// Machine encountered an explict revert.
+	/// Machine encountered an explicit revert.
 	Reverted,
 }
 
@@ -87,8 +96,11 @@ impl From<ExitRevert> for ExitReason {
 }
 
 /// Exit error reason.
-#[derive(Clone, Debug, Eq, PartialEq, scale_info::TypeInfo)]
-#[cfg_attr(feature = "with-codec", derive(codec::Encode, codec::Decode))]
+#[derive(Clone, Debug, Eq, PartialEq)]
+#[cfg_attr(
+	feature = "with-codec",
+	derive(codec::Encode, codec::Decode, scale_info::TypeInfo)
+)]
 #[cfg_attr(feature = "with-serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum ExitError {
 	/// Trying to pop from an empty stack.
@@ -117,12 +129,16 @@ pub enum ExitError {
 	OutOfFund,
 
 	/// PC underflowed (unused).
+	#[allow(clippy::upper_case_acronyms)]
 	PCUnderflow,
+
 	/// Attempt to create an empty account (runtime, unused).
 	CreateEmpty,
 
 	/// Other normal errors.
 	Other(Cow<'static, str>),
+	/// Starting byte must not begin with 0xef. See [EIP-3541](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-3541.md).
+	InvalidCode,
 }
 
 impl From<ExitError> for ExitReason {
@@ -132,15 +148,18 @@ impl From<ExitError> for ExitReason {
 }
 
 /// Exit fatal reason.
-#[derive(Clone, Debug, Eq, PartialEq, scale_info::TypeInfo)]
-#[cfg_attr(feature = "with-codec", derive(codec::Encode, codec::Decode))]
+#[derive(Clone, Debug, Eq, PartialEq)]
+#[cfg_attr(
+	feature = "with-codec",
+	derive(codec::Encode, codec::Decode, scale_info::TypeInfo)
+)]
 #[cfg_attr(feature = "with-serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum ExitFatal {
 	/// The operation is not supported.
 	NotSupported,
 	/// The trap (interrupt) is unhandled.
 	UnhandledInterrupt,
-	/// The environment explictly set call errors as fatal error.
+	/// The environment explicitly set call errors as fatal error.
 	CallErrorAsFatal(ExitError),
 
 	/// Other fatal errors.
